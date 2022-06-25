@@ -28,12 +28,10 @@ namespace SportsHall
                     var context = services.GetRequiredService<ApplicationDbContext>();
                     var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
                     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+                    HallService.Initialize(context);
+
                     await ContextSeed.SeedRolesAsync(userManager, roleManager);
                     await ContextSeed.SeedSuperAdminAsync(userManager, roleManager);
-
-                    var con = services.GetRequiredService<SportsHallContext>();
-
-                    HallsService.Initialize(con);
                 }
                 catch (Exception ex)
                 {

@@ -7,9 +7,9 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
-<body>
+<body class="bg-dark">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-dark bg-dark navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SportsHall</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -20,46 +20,46 @@
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         @if (User.Identity.IsAuthenticated)
                         {
                             if (User.IsInRole("Admin"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="UserRoles" asp-action="Index">User Roles</a>
+                                    <a class="nav-link" asp-area="" asp-controller="UserRoles" asp-action="Index">User Roles</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="RoleManager" asp-action="Index">Role Manager</a>
+                                    <a class="nav-link" asp-area="" asp-controller="RoleManager" asp-action="Index">Role Manager</a>
                                 </li>
                             }
                         }
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Coaches">Coaches</a>
+                            <a class="nav-link" asp-area="" asp-controller="Coaches" asp-action="Index">Coaches</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Halls">Halls</a>
+                            <a class="nav-link" asp-area="" asp-controller="Halls" asp-action="Index">Halls</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Training">Training</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Training">Training</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Schedule">Schedule</a>
-                        </li>            
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Schedule">Schedule</a>
+                        </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
     <div class="container">
-        <main role="main" class="pb-3">
+        <main role="main" class="pb-3 text-white">
             @RenderBody()
         </main>
     </div>
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2022 - SportsHall - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2022 - SportsHall
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

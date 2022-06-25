@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace SportsHall.Services
 {
-    public static class HallsService
+    public static class HallService
     {
-        public static void Initialize(SportsHallContext context)
+        public static void Initialize(ApplicationDbContext context)
         {
             if (!context.Halls.Any())
             {

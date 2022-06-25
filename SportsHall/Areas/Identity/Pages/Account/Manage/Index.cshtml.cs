@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using SportsHall.Enums;
 using SportsHall.Models;
 
 namespace SportsHall.Areas.Identity.Pages.Account.Manage
@@ -39,11 +40,23 @@ namespace SportsHall.Areas.Identity.Pages.Account.Manage
             public string FirstName { get; set; }
             [Display(Name = "Last Name")]
             public string LastName { get; set; }
+            [DataType(DataType.Date)]
+            [DisplayFormat(DataFormatString = "{0:dd'/'MM'/'yyyy}", ApplyFormatInEditMode = true)]
+            [Display(Name = "Date Of Birth")]
+            public string DateOfBirth { get; set; }
             [Display(Name = "Username")]
             public string Username { get; set; }
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+            [Display(Name = "Gender")]
+            public string Gender { get; set; }
+            [Display(Name = "Status")]
+            public string Status { get; set; }
+            [Display(Name = "Specialization")]
+            public string Specialization { get; set; }
+            [Display(Name = "WorkTime")]
+            public string WorkTime { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
@@ -52,6 +65,12 @@ namespace SportsHall.Areas.Identity.Pages.Account.Manage
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
             var firstName = user.FirstName;
             var lastName = user.LastName;
+            var dateOfBirth = user.DateOfBirth;
+            var gender = user.Gender;
+            var status = user.Status;
+            var specialization = user.Specialization;
+            var workTime = user.WorkTime;
+
             Username = userName;
             Input = new InputModel
             {
@@ -59,6 +78,11 @@ namespace SportsHall.Areas.Identity.Pages.Account.Manage
                 Username = userName,
                 FirstName = firstName,
                 LastName = lastName,
+                DateOfBirth = dateOfBirth,
+                Gender = gender,
+                Status = status,
+                Specialization = specialization,
+                WorkTime = workTime
             };
         }
 
@@ -100,6 +124,11 @@ namespace SportsHall.Areas.Identity.Pages.Account.Manage
             }
             var firstName = user.FirstName;
             var lastName = user.LastName;
+            var dateOfBirth = user.DateOfBirth;
+            var gender = user.Gender;
+            var status = user.Status;
+            var specialization = user.Specialization;
+            var workTime = user.WorkTime;
             if (Input.FirstName != firstName)
             {
                 user.FirstName = Input.FirstName;
@@ -110,7 +139,32 @@ namespace SportsHall.Areas.Identity.Pages.Account.Manage
                 user.LastName = Input.LastName;
                 await _userManager.UpdateAsync(user);
             }
-          
+            if (Input.DateOfBirth != dateOfBirth)
+            {
+                user.DateOfBirth = Input.DateOfBirth;
+                await _userManager.UpdateAsync(user);
+            }
+            if (Input.Gender != gender)
+            {
+                user.Gender = Input.Gender;
+                await _userManager.UpdateAsync(user);
+            }
+            if (Input.Status != status)
+            {
+                user.Status = Input.Status;
+                await _userManager.UpdateAsync(user);
+            }
+            if (Input.Specialization != specialization)
+            {
+                user.Specialization = Input.Specialization;
+                await _userManager.UpdateAsync(user);
+            }
+            if (Input.WorkTime != workTime)
+            {
+                user.WorkTime = Input.WorkTime;
+                await _userManager.UpdateAsync(user);
+            }
+
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();

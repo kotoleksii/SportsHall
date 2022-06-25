@@ -1,5 +1,6 @@
 ﻿@page
 @model IndexModel
+@using SportsHall.Enums;
 @{
     ViewData["Title"] = "Profile";
     ViewData["ActivePage"] = ManageNavPages.Index;
@@ -8,10 +9,10 @@
 <h4>@ViewData["Title"]</h4>
 <partial name="_StatusMessage" model="Model.StatusMessage" />
 <partial name="_StatusMessage" model="Model.UserNameChangeLimitMessage" />
-<div class="row">
-    <div class="col-md-6">
-        <form id="profile-form" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<form id="profile-form" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+        <div class="col">
             <div class="form-group">
                 <label asp-for="Input.FirstName"></label>
                 <input asp-for="Input.FirstName" class="form-control" />
@@ -22,19 +23,107 @@
                 <input asp-for="Input.LastName" class="form-control" />
                 <span asp-validation-for="Input.LastName" class="text-danger"></span>
             </div>
+            @*<div class="form-group">
+                    <label asp-for="Input.DateOfBirth"></label>
+                    <input asp-for="Input.DateOfBirth" class="form-control" />
+                    <span asp-validation-for="Input.DateOfBirth" class="text-danger"></span>
+                </div>*@
+            @*@Html.TextBoxFor(model => model.Input.DateOfBirth, "{0:dd/MM/yyyy}", new { @class = "form-control" })*@
             <div class="form-group">
-                <label asp-for="Username"></label>
-                <input asp-for="Username" class="form-control" disabled />
+                <label asp-for="Input.DateOfBirth"></label>
+                @Html.EditorFor(model => model.Input.DateOfBirth, "{0:dd/MM/yyyy}")
+            <span asp-validation-for="Input.DateOfBirth" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Input.PhoneNumber"></label>
                 <input asp-for="Input.PhoneNumber" class="form-control" />
                 <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
             </div>
-            <button id="update-profile-button" type="submit" class="btn btn-primary">Save</button>
-        </form>
+            <div class="form-group">
+                <label asp-for="Input.Gender"></label>
+                @Html.DropDownListFor(m => m.Input.Gender, selectList: GetGenderList(), new { @class = "form-control" })
+                <span asp-validation-for="Input.Gender" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Username"></label>
+                <input asp-for="Username" class="form-control" disabled />
+            </div>
+        </div>
+        @if (User.Identity.IsAuthenticated)
+        {
+            if (User.IsInRole("Coach"))
+            {
+                <div class="col">
+                    <div class="form-group">
+                        <label asp-for="Input.Status"></label>
+                        @Html.DropDownListFor(m => m.Input.Status, selectList: GetCoachStatusList(), new { @class = "form-control" })
+                        <span asp-validation-for="Input.Status" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Input.Specialization"></label>
+                        @Html.DropDownListFor(m => m.Input.Specialization, selectList: GetSpecializationList(), new { @class = "form-control" })
+                        <span asp-validation-for="Input.Specialization" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Input.WorkTime"></label>
+                        <input asp-for="Input.WorkTime" class="form-control" />
+                        <span asp-validation-for="Input.WorkTime" class="text-danger"></span>
+                    </div>
+
+                </div>
+            }
+            if (User.IsInRole("Admin"))
+            {
+                <div class="col">
+                    <div class="form-group">
+                        <label asp-for="Input.Status"></label>
+                        @Html.DropDownListFor(m => m.Input.Status, selectList: GetAdminStatusList(), new { @class = "form-control" })
+                        <span asp-validation-for="Input.Status" class="text-danger"></span>
+                    </div>
+                </div>
+            }
+        }
     </div>
-</div>
+    <button id="update-profile-button" type="submit" class="btn btn-primary">Save</button>
+</form>
+@*</div>*@
+
+@functions {
+    public IEnumerable<SelectListItem> GetGenderList()
+    {
+        return new[] {
+                new SelectListItem() { Text = "Male", Value = "true" },
+                new SelectListItem() { Text = "Female", Value = "false" }
+                };
+    }
+
+    public IEnumerable<SelectListItem> GetCoachStatusList()
+    {
+        return new[] {
+                new SelectListItem() { Text = "Coach", Value = "Coach" },
+                new SelectListItem() { Text = "Head Coach", Value = "Head Coach" }
+                };
+    }
+
+    public IEnumerable<SelectListItem> GetAdminStatusList()
+    {
+        return new[] {
+                new SelectListItem() { Text = "Manager", Value = "Manager" },
+                new SelectListItem() { Text = "Head Manager", Value = "Head Manager" }
+                };
+    }
+
+    public IEnumerable<SelectListItem> GetSpecializationList()
+    {
+        return new[] {
+                new SelectListItem() { Text = "Individual Training", Value = "Individual Training" },
+                new SelectListItem() { Text = "Dancing", Value = "Dancing" },
+                new SelectListItem() { Text = "Yoga", Value = "Yoga" },
+                };
+    }
+}
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using SportsHall.Data;
 using SportsHall.Models;
+using SportsHall.Services;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,28 +15,28 @@ namespace SportsHall.Controllers
     public class HomeController : Controller
     {
         ApplicationDbContext db;
+        private readonly IConfiguration Configuration;
 
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ApplicationDbContext context, IConfiguration _configuration)
         {
-            _logger = logger;
+            db = context;
+            Configuration = _configuration;
         }
 
         public IActionResult Index()
         {
+            var userInCoachRole = UserService.GetUsersByRole(db, "Coach").Result;
+            var userInClientRole = UserService.GetUsersByRole(db, "Client").Result;
+
+            ViewBag.CoachCount = userInCoachRole.Count;
+            ViewBag.ClientCount = userInClientRole.Count;
+            ViewBag.HallsCount = db.Halls.Count();
+
             return View();
         }
 
         public IActionResult Privacy()
         {
-            return View();
-        }
-
-        [HttpGet]
-        public IActionResult Halls()
-        {
-            //return View(db.Halls.ToList());
             return View();
         }
 
