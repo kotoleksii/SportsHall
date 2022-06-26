@@ -11,6 +11,15 @@
             <th scope="col">ID</th>
             <th scope="col">FirstName</th>
             <th scope="col">LastName</th>
+            <th scope="col">Status</th>
+            <th scope="col">Specialization</th>
+            @if (User.Identity.IsAuthenticated)
+            {
+                if (User.IsInRole("Client"))
+                {
+                    <th scope="col">Actions</th>
+                }
+            }
         </tr>
     </thead>
     <tbody>
@@ -20,6 +29,15 @@
                 <th scope="row">@user.Id</th>
                 <td>@user.FirstName</td>
                 <td>@user.LastName</td>
+                <td>@user.Status</td>
+                <td>@user.Specialization</td>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    if (User.IsInRole("Client"))
+                    {
+                        <td>@Html.ActionLink("Sign Up", "SignUp", "Coaches", new { id = user.Id }, new { @class = "btn btn-primary" })</td>
+                    }
+                }
             </tr>
         }
     </tbody>

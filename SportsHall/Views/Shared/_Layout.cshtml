@@ -40,12 +40,12 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Halls" asp-action="Index">Halls</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Training">Training</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Schedule">Schedule</a>
-                        </li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Training" asp-action="Index">Schedule</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>

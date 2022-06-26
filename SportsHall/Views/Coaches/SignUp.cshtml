@@ -1,0 +1,58 @@
+﻿@model SportsHall.Models.Training
+
+@{
+    ViewData["Title"] = "Sign Up For Training";
+}
+
+
+<div class="mask d-flex align-items-center h-100 gradient-custom-3">
+    <div class="container h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+                <div class="card bg-dark" style="border-radius: 15px;">
+                    <div class="card-body p-5">
+                        <h2 class="text-uppercase text-center mb-2">@ViewData["Title"]</h2>
+                        @using (Html.BeginForm("SignUp", "Coaches", FormMethod.Post))
+                        {
+                            @Html.Hidden("ClientId", @ViewData["ClientId"])
+
+                            <div class="form-group mb-2">
+                                @Html.Label("Type of training")
+                                @Html.DropDownListFor(m => m.Title, selectList: GetSpecializationList(), new { @class = "form-control" })
+                            </div>
+
+                            <div class="form-group mb-2">
+                                @Html.LabelFor(m => m.Coach, new { @class = "control-label" })
+                                <input asp-for="Coach" value=@ViewBag.CoachName class="form-control form-control-lg" readonly="readonly" />
+                            </div>
+
+                            <div class="form-outline mb-2">
+                                @Html.LabelFor(m => m.Date, new { @class = "control-label" })
+                                @Html.EditorFor(model => model.Date, "{0:dd/MM/yyyy}", new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+
+
+                            <div class="text-center">
+                                <div class="form-group">
+                                    <input type="submit" class="btn btn-success btn-lg" value="Submit" />
+                                    <a asp-action="Index" class="btn btn-primary btn-lg">Back</a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@functions{
+    public IEnumerable<SelectListItem> GetSpecializationList()
+    {
+        return new[] {
+            new SelectListItem() { Text = "Individual Training", Value = "Individual Training" },
+            new SelectListItem() { Text = "Dancing", Value = "Dancing" },
+            new SelectListItem() { Text = "Yoga", Value = "Yoga" },
+        };
+    }
+}

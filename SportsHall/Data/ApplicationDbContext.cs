@@ -9,17 +9,19 @@ using System.Text;
 namespace SportsHall.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
-    {
-        public DbSet<Hall> Halls { get; set; }
+    { 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
             Database.EnsureCreated();
         }
 
-        public ApplicationDbContext()
-        {
-        }
+        public DbSet<Hall> Halls { get; set; }
+        public DbSet<Training> Trainings { get; set; }
+
+        //public ApplicationDbContext()
+        //{
+        //}
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
